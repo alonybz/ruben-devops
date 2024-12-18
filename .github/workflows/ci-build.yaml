@@ -1,0 +1,35 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '15.0.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      # - name: Run formatter
+      #   run: npm run prettier
+
+      - name: Run tests
+        run: CI=true npm run test
+
+      - name: Build app
+        run: npm run build
